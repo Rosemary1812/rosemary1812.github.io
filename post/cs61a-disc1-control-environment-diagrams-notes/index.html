@@ -1,0 +1,228 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>cs61A Disc1 Control, Environment Diagrams notes | Rosemary1812</title>
+<link rel="shortcut icon" href="https://rosemary1812.github.io//favicon.ico?v=1731586843944">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://rosemary1812.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="cs61A Disc1 Control, Environment Diagrams notes | Rosemary1812 - Atom Feed" href="https://rosemary1812.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="assertion
+assert y &gt; x and y &lt;= 2 * x, 'the hare must be fast but not too fast' 
+这行代码检查输入的合理性：兔子的速度必须大于乌龟的速度（即 y &..." />
+    <meta name="keywords" content="coding,cs61A,自学" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://rosemary1812.github.io/">
+  <img class="avatar" src="https://rosemary1812.github.io//images/avatar.png?v=1731586843944" alt="">
+  </a>
+  <h1 class="site-title">
+    Rosemary1812
+  </h1>
+  <p class="site-description">
+    吾所游兮 鸿蒙太空
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              cs61A Disc1 Control, Environment Diagrams notes
+            </h2>
+            <div class="post-info">
+              <span>
+                2024-10-12
+              </span>
+              <span>
+                2 min read
+              </span>
+              
+                <a href="https://rosemary1812.github.io/tag/t0n0_ENq5H/" class="post-tag">
+                  # coding
+                </a>
+              
+                <a href="https://rosemary1812.github.io/tag/AfoqphEOVsK/" class="post-tag">
+                  # cs61A
+                </a>
+              
+                <a href="https://rosemary1812.github.io/tag/saD_hxlpa8b/" class="post-tag">
+                  # 自学
+                </a>
+              
+            </div>
+            
+              <img class="post-feature-image" src="https://rosemary1812.github.io//post-images/cs61a-disc1-control-environment-diagrams-notes.jpg" alt="">
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <h3 id="assertion">assertion</h3>
+<p><code>assert y &gt; x and y &lt;= 2 * x, 'the hare must be fast but not too fast' </code><br>
+这行代码检查输入的合理性：兔子的速度必须大于乌龟的速度（即 <code>y &gt; x</code>），但兔子的速度不能过快，不能超过乌龟速度的两倍（即 <code>y &lt;= 2 * x</code>）</p>
+<h3 id="while-loopbool使用注意">while loop(bool使用注意)</h3>
+<p><code>while minutes == 0 or tortoise - hare:</code> 注意这个代码后半句 <mark>等于0或者ture被省略了</mark><br>
+<code>tortoise - hare</code> 是一个<strong>表达式</strong>，并不是一个运算符。这个表达式只是计算乌龟和兔子的距离差。让我们分解一下：</p>
+<ul>
+<li><strong><code>tortoise</code></strong> 是乌龟当前走的总距离（一个变量）。</li>
+<li><strong><code>hare</code></strong> 是兔子当前跑的总距离（也是一个变量）。</li>
+</ul>
+<p><code>-</code> 是减法运算符，用于计算乌龟距离减去兔子距离的差值。</p>
+<h4 id="为什么表达式直接出现在-while-里">为什么表达式直接出现在 <code>while</code> 里？</h4>
+<p>在 Python 中，<strong>非零数值被视为 <code>True</code></strong>，而零则被视为 <code>False</code>。所以，<code>tortoise - hare</code> 的作用是：</p>
+<ul>
+<li>当 <code>tortoise - hare != 0</code>，即乌龟和兔子还不在同一个位置时，这个值不为 0，因此循环继续执行。</li>
+<li>当 <code>tortoise - hare == 0</code>，即乌龟追上了兔子，两者在同一位置时，表达式的值为 0，表示 <code>False</code>，于是循环停止。</li>
+</ul>
+<p>所以，这里不是某种特殊的语法或运算符，而是直接利用了 Python 对数值的真假性判断：</p>
+<ul>
+<li>非零：<code>True</code>，循环继续。</li>
+<li>零：<code>False</code>，循环结束。</li>
+</ul>
+<h4 id="常见使用场景copy一下虽然估计不常用"><s>常见使用场景：（copy一下，虽然估计不常用）</s></h4>
+<p><s>这种简化在实际编程中非常常见，特别是在以下场景：</s></p>
+<ul>
+<li><s><strong>检查数值为零或非零</strong>：如计数器、距离差等。</s></li>
+<li><s><strong>检查列表是否为空</strong>：空列表为 <code>False</code>，非空列表为 <code>True</code>。</s></li>
+<li><s><strong>检查变量是否为 None</strong>：可以直接使用变量代替 <code>if variable is not None</code>。</s></li>
+</ul>
+<p>eg.<br>
+![[Pasted image 20241012171622.png]]<img src="https://rosemary1812.github.io//post-images/1728724929043.png" alt="" loading="lazy"></p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#assertion">assertion</a></li>
+<li><a href="#while-loopbool%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F">while loop(bool使用注意)</a>
+<ul>
+<li><a href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9B%B4%E6%8E%A5%E5%87%BA%E7%8E%B0%E5%9C%A8-while-%E9%87%8C">为什么表达式直接出现在 <code>while</code> 里？</a></li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AFcopy%E4%B8%80%E4%B8%8B%E8%99%BD%E7%84%B6%E4%BC%B0%E8%AE%A1%E4%B8%8D%E5%B8%B8%E7%94%A8"><s>常见使用场景：（copy一下，虽然估计不常用）</s></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://rosemary1812.github.io/post/shellyi-ge-cu-cao-de-bi-ji/">
+              <h3 class="post-title">
+                Shell
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://rosemary1812.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

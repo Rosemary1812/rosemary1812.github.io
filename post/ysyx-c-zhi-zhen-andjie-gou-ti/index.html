@@ -1,0 +1,310 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ysyx C 指针&amp;结构体 | Rosemary1812</title>
+<link rel="shortcut icon" href="https://rosemary1812.github.io//favicon.ico?v=1731586843944">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://rosemary1812.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="ysyx C 指针&amp;结构体 | Rosemary1812 - Atom Feed" href="https://rosemary1812.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="#include &lt;stdio.h&gt;
+#include &lt;assert.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+struct Person {
+..." />
+    <meta name="keywords" content="ysyx,coding,自学" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://rosemary1812.github.io/">
+  <img class="avatar" src="https://rosemary1812.github.io//images/avatar.png?v=1731586843944" alt="">
+  </a>
+  <h1 class="site-title">
+    Rosemary1812
+  </h1>
+  <p class="site-description">
+    吾所游兮 鸿蒙太空
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              ysyx C 指针&amp;结构体
+            </h2>
+            <div class="post-info">
+              <span>
+                2024-11-14
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+                <a href="https://rosemary1812.github.io/tag/rWjx9kVt83/" class="post-tag">
+                  # ysyx
+                </a>
+              
+                <a href="https://rosemary1812.github.io/tag/t0n0_ENq5H/" class="post-tag">
+                  # coding
+                </a>
+              
+                <a href="https://rosemary1812.github.io/tag/saD_hxlpa8b/" class="post-tag">
+                  # 自学
+                </a>
+              
+            </div>
+            
+              <img class="post-feature-image" src="https://rosemary1812.github.io//post-images/ysyx-c-zhi-zhen-andjie-gou-ti.png" alt="">
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;assert.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+struct Person {
+    char *name;
+    int age;
+    int height;
+    int weight;
+};
+
+struct Person *Person_create(char *name, int age, int height, int weight)
+{
+    struct Person *who = malloc(sizeof(struct Person));
+    assert(who != NULL);
+
+    who-&gt;name = strdup(name);
+    who-&gt;age = age;
+    who-&gt;height = height;
+    who-&gt;weight = weight;
+
+    return who;
+}
+
+void Person_destroy(struct Person *who)
+{
+    assert(who != NULL);
+
+    free(who-&gt;name);
+    free(who);
+}
+
+void Person_print(struct Person *who)
+{
+    printf(&quot;Name: %s\n&quot;, who-&gt;name);
+    printf(&quot;\tAge: %d\n&quot;, who-&gt;age);
+    printf(&quot;\tHeight: %d\n&quot;, who-&gt;height);
+    printf(&quot;\tWeight: %d\n&quot;, who-&gt;weight);
+}
+
+int main(int argc, char *argv[])
+{
+    // make two people structures
+    struct Person *joe = Person_create(
+            &quot;Joe Alex&quot;, 32, 64, 140);
+
+    struct Person *frank = Person_create(
+            &quot;Frank Blank&quot;, 20, 72, 180);
+
+    // print them out and where they are in memory
+    printf(&quot;Joe is at memory location %p:\n&quot;, joe);
+    Person_print(joe);
+
+    printf(&quot;Frank is at memory location %p:\n&quot;, frank);
+    Person_print(frank);
+
+    // make everyone age 20 years and print them again
+    joe-&gt;age += 20;
+    joe-&gt;height -= 2;
+    joe-&gt;weight += 40;
+    Person_print(joe);
+
+    frank-&gt;age += 20;
+    frank-&gt;weight += 20;
+    Person_print(frank);
+
+    // destroy them both so we clean up
+    Person_destroy(joe);
+    Person_destroy(frank);
+
+    return 0;
+}
+</code></pre>
+<ul>
+<li>
+<p><code>struct Person</code></p>
+<ul>
+<li>这就是我创建结构体的地方了，结构体含有四个成员来描述一个人。最后我们得到了一个复合类型</li>
+</ul>
+</li>
+<li>
+<p><code>Pearson_create</code> 函数</p>
+<ul>
+<li>我需要一个方法来创建这些结构体，于是我定义了一个函数来实现。下面是这个函数做的几件重要的事情：
+<ul>
+<li>使用用于内存分配的<code>malloc</code>来向OS申请一块原始的内存。</li>
+<li>向<code>malloc</code>传递<code>sizeof(struct Person)</code>参数，它计算结构体的大小，包含其中的所有成员。</li>
+<li>使用了<code>assert</code>来确保从<code>malloc</code>得到一块有效的内存。有一个特殊的常量叫做<code>NULL</code>，表示“未设置或无效的指针”。这个<code>assert</code>大致检查了<code>malloc</code>是否会返回<code>NULL</code>。
+<ul>
+<li><code>#include &lt;assert.h&gt;</code> 是一个预处理指令，可以检查某个条件是否为真，如果为假，则程序会打印出错误信息并终止。这样有助于在开发过程中捕捉到错误和不一致之处。</li>
+</ul>
+</li>
+<li>使用<code>x-&gt;y</code>语法来初始化<code>struct Person</code>的每个成员，它指明了所初始化的成员。</li>
+<li>使用<code>strdup</code>来复制字符串<code>name</code>，是为了确保结构体真正拥有它。<code>strdup</code>的行为实际上类似<code>malloc</code>但是它同时会将原来的字符串复制到新创建的内存。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>注：<code>x-&gt;y</code>是<code>(*x).y</code>的简写。</p>
+</blockquote>
+<ul>
+<li><code>Person_destroy</code> 函数
+<ul>
+<li>如果定义了创建函数，那么一定需要一个销毁函数，它会销毁<code>Person</code>结构体。再一次使用<code>assert</code>来确保不会得到错误的输入。接着使用了<code>free</code>函数来交还通过<code>malloc</code>和<code>strdup</code>得到的内存。如果你不这么做则会出现“内存泄露”。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>译者注：不想显式释放内存又能避免内存泄露的办法是引入<code>libGC</code>库。你需要把所有的<code>malloc</code>换成<code>GC_malloc</code>，然后把所有的<code>free</code>删掉。</p>
+</blockquote>
+<ul>
+<li><code>Person_print</code> 函数</li>
+</ul>
+<p>接下来需要一个方法来打印出人们的信息，这就是这个函数所做的事情。它用了相同的<code>x-&gt;y</code>语法从结构体中获取成员来打印。</p>
+<p><code>main</code> 函数</p>
+<p><code>main</code>函数中使用了所有前面的函数和<code>struct Person</code>来执行下面的事情：</p>
+<ul>
+<li>创建了两个人：<code>joe</code>和<code>frank</code>。</li>
+<li>把它们打印出来，注意我用了<code>%p</code>占位符，所以你可以看到程序实际上把结构体放到了哪里。</li>
+<li>把它们的年龄增加20岁，同时增加它们的体重。</li>
+<li>之后打印出每个人。</li>
+<li>最后销毁结构体，以正确的方式清理它们。</li>
+</ul>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://rosemary1812.github.io/post/ysyx-yu-xue-xi-ji-suan-ji-de-zhuang-tai-ji-mo-xing-notes/">
+              <h3 class="post-title">
+                ysyx预学习 计算机的状态机模型notes
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://rosemary1812.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

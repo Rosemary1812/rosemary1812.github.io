@@ -1,0 +1,292 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Shell | Rosemary1812</title>
+<link rel="shortcut icon" href="https://rosemary1812.github.io//favicon.ico?v=1731586843944">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://rosemary1812.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Shell | Rosemary1812 - Atom Feed" href="https://rosemary1812.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="一份粗糙的笔记，内容整理自/.missing semester以及Claude的回答。
+附上文档一份方便查阅（虽然大概率不会再看。。。）
+Advanced Bash-Scripting Guide
+Shell 脚本（看了大概知道如何实现，不..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://rosemary1812.github.io/">
+  <img class="avatar" src="https://rosemary1812.github.io//images/avatar.png?v=1731586843944" alt="">
+  </a>
+  <h1 class="site-title">
+    Rosemary1812
+  </h1>
+  <p class="site-description">
+    吾所游兮 鸿蒙太空
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Shell
+            </h2>
+            <div class="post-info">
+              <span>
+                2024-09-22
+              </span>
+              <span>
+                6 min read
+              </span>
+              
+            </div>
+            
+              <img class="post-feature-image" src="https://rosemary1812.github.io//post-images/shellyi-ge-cu-cao-de-bi-ji.jpg" alt="">
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p>一份粗糙的笔记，内容整理自<a href="https://missing.csail.mit.edu/2020/shell-tools/">/.missing semester</a>以及Claude的回答。</p>
+<h3 id="附上文档一份方便查阅虽然大概率不会再看">附上文档一份方便查阅（虽然大概率不会再看。。。）</h3>
+<p><a href="https://tldp.org/LDP/abs/html/index.html">Advanced Bash-Scripting Guide</a></p>
+<h2 id="shell-脚本看了大概知道如何实现不过不会用要用到的时候再了解吧">Shell 脚本（看了大概知道如何实现，不过不会用，要用到的时候再了解吧）</h2>
+<p>在 Bash 中编写脚本的步骤如下：</p>
+<h3 id="1-创建脚本文件">1. <strong>创建脚本文件</strong></h3>
+<p>首先，使用文本编辑器（如 <code>vim</code>、<code>nano</code> 或者 <code>gedit</code>）创建一个脚本文件。文件扩展名通常是 <code>.sh</code>，但这不是强制的。</p>
+<pre><code class="language-bash">nano myscript.sh
+</code></pre>
+<h3 id="2-添加-shebang脚本头">2. <strong>添加 Shebang（脚本头）</strong></h3>
+<p>在文件的第一行添加以下代码来指定使用 Bash 来执行脚本：</p>
+<pre><code class="language-bash">#!/bin/bash
+</code></pre>
+<p>这叫做 <strong>shebang</strong>，告诉操作系统要用 <code>/bin/bash</code> 来解释运行这个脚本。</p>
+<h3 id="3-编写脚本内容">3. <strong>编写脚本内容</strong></h3>
+<p>你可以在这个文件中添加你想要运行的 Bash 命令。例如：</p>
+<pre><code class="language-bash">#!/bin/bash
+# This is a simple script that prints &quot;Hello, World!&quot;
+
+echo &quot;Hello, World!&quot;
+</code></pre>
+<h3 id="4-保存并退出编辑器">4. <strong>保存并退出编辑器</strong></h3>
+<p>保存文件并退出编辑器。</p>
+<ul>
+<li>在 <strong>nano</strong> 中：按 <code>Ctrl + O</code>，然后按回车保存，接着 <code>Ctrl + X</code> 退出。</li>
+<li>在 <strong>vim</strong> 中：按 <code>Esc</code>，然后输入 <code>:wq</code> 保存并退出。</li>
+</ul>
+<h3 id="5-给予执行权限">5. <strong>给予执行权限</strong></h3>
+<p>使用 <code>chmod</code> 命令使脚本可执行：</p>
+<pre><code class="language-bash">chmod +x myscript.sh
+</code></pre>
+<h3 id="6-运行脚本">6. <strong>运行脚本</strong></h3>
+<p>现在，你可以通过在终端中输入以下命令运行脚本：</p>
+<pre><code class="language-bash">./myscript.sh
+</code></pre>
+<h3 id="示例简单的脚本">示例：简单的脚本</h3>
+<pre><code class="language-bash">#!/bin/bash
+# A simple script to greet the user
+
+echo &quot;What's your name?&quot;
+read name
+echo &quot;Hello, $name! Welcome to Bash scripting.&quot;
+</code></pre>
+<h3 id="其他提示">其他提示</h3>
+<ul>
+<li>使用 <code>#</code> 来添加注释，帮助你记录脚本的功能。</li>
+<li>使用 <code>read</code> 命令来获取用户输入。</li>
+<li>可以用 <code>if</code>、<code>for</code>、<code>while</code> 等控制结构编写更复杂的逻辑。</li>
+</ul>
+<p>写脚本有时候需要反复测试，开始时从简单的功能开始是个好主意！</p>
+<h2 id="查看命令如何使用">查看命令如何使用</h2>
+<ul>
+<li>如何为特定的命令找到合适的标记呢？例如 <code>ls -l</code>, <code>mv -i</code> 和 <code>mkdir -p</code>。更普遍的是，给您一个命令行，您应该怎样了解如何使用这个命令行并找出它的不同的选项呢？在上一节中我们介绍过，最常用的方法是为对应的命令行添加 <code>-h</code> 或 <code>--help</code> 标记。另外一个更详细的方法则是使用 <code>man</code> 命令。<a href="https://man7.org/linux/man-pages/man1/man.1.html"><code>man</code></a> 命令是手册（manual）的缩写，它提供了命令的用户手册。</li>
+<li>有时候手册内容太过详实，让我们难以在其中查找哪些最常用的标记和语法。 <a href="https://tldr.sh/">TLDR pages</a> 是一个很不错的替代品，它提供了一些案例，可以帮助您快速找到正确的选项。</li>
+</ul>
+<h2 id="查找文件">查找文件</h2>
+<ul>
+<li><mark>find</mark> 所有的类 UNIX 系统都包含一个名为 <a href="https://man7.org/linux/man-pages/man1/find.1.html"><code>find</code></a> 的工具，它是 shell 上用于查找文件的绝佳工具。<code>find</code> 命令会递归地搜索符合条件的文件。</li>
+<li><mark>fd</mark> 尽管 <code>find</code> 用途广泛，它的语法却比较难以记忆。例如，为了查找满足模式 <code>PATTERN</code> 的文件，您需要执行 <code>find -name '*PATTERN*'</code> (如果您希望模式匹配时是不区分大小写，可以使用 <code>-iname</code> 选项）例如，<a href="https://github.com/sharkdp/fd"><code>fd</code></a> 就是一个更简单、更快速、更友好的程序，它可以用来作为 <code>find</code> 的替代品。以模式 <code>PATTERN</code> 搜索的语法是 <code>fd PATTERN</code>。</li>
+<li><mark>locate</mark>大多数人都认为 <code>find</code> 和 <code>fd</code> 已经很好用了，但是有的人可能想知道，我们是不是可以有更高效的方法，例如不要每次都搜索文件而是通过编译索引或建立数据库的方式来实现更加快速地搜索。这就要靠 <a href="https://man7.org/linux/man-pages/man1/locate.1.html"><code>locate</code></a> 了。 <code>locate</code> 使用一个由 <a href="https://man7.org/linux/man-pages/man1/updatedb.1.html"><code>updatedb</code></a> 负责更新的数据库，在大多数系统中 <code>updatedb</code> 都会通过 <a href="https://man7.org/linux/man-pages/man8/cron.8.html"><code>cron</code></a> 每日更新。这便需要我们在速度和时效性之间作出权衡。而且，<code>find</code> 和类似的工具可以通过别的属性比如文件大小、修改时间或是权限来查找文件，<code>locate</code> 则只能通过文件名。 <a href="https://unix.stackexchange.com/questions/60205/locate-vs-find-usage-pros-and-cons-of-each-other">这里</a> 有一个更详细的对比。</li>
+</ul>
+<h2 id="查找代码">查找代码</h2>
+<p><code>grep</code> 有很多选项，这也使它成为一个非常全能的工具。其中我经常使用的有 <code>-C</code> ：获取查找结果的上下文（Context）；<code>-v</code> 将对结果进行反选（Invert），也就是输出不匹配的结果。举例来说， <code>grep -C 5</code> 会输出匹配结果前后五行。当需要搜索大量文件的时候，使用 <code>-R</code> 会递归地进入子目录并搜索所有的文本文件。</p>
+<h2 id="查找-shell-命令">查找 shell 命令</h2>
+<p><code>history</code> 命令允许您以程序员的方式来访问 shell 中输入的历史命令。这个命令会在标准输出中打印 shell 中的历史命令。如果我们要搜索历史记录，则可以利用管道将输出结果传递给 <code>grep</code> 进行模式搜索。 <code>history | grep find</code> 会打印包含 find 子串的命令。</p>
+<h2 id="文件夹导航">文件夹导航</h2>
+<p>还有一些更复杂的工具可以用来概览目录结构，例如 [<code>tree</code>]</p>
+<h2 id="chomd命令">chomd命令</h2>
+<p><code>chmod</code> 是一个用于更改文件或目录权限的命令。在 Unix 和 Linux 操作系统中，<code>chmod</code> 可以设置谁可以读取、写入或执行文件。</p>
+<p>权限分为三种类型：</p>
+<ol>
+<li><strong>读（r）</strong> - 允许查看文件内容。</li>
+<li><strong>写（w）</strong> - 允许修改文件内容。</li>
+<li><strong>执行（x）</strong> - 允许执行文件（对于脚本或程序）。</li>
+</ol>
+<p>权限的设置是针对三类用户：</p>
+<ol>
+<li><strong>文件所有者</strong>（User）</li>
+<li><strong>同组用户</strong>（Group）</li>
+<li><strong>其他用户</strong>（Others）</li>
+</ol>
+<p>使用方式示例：</p>
+<ul>
+<li><code>chmod 755 filename</code>：设置文件所有者具有读、写、执行权限，组用户和其他用户具有读和执行权限。</li>
+<li><code>chmod u+rwx, g+rx, o+rx filename</code>：同样的效果，但以符号方式表示。</li>
+</ul>
+<p>通过 <code>chmod</code> 命令，用户可以灵活控制文件的访问权限。</p>
+<h2 id="其他">其他</h2>
+<ul>
+<li>sudo</li>
+<li>管道</li>
+<li></li>
+</ul>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E9%99%84%E4%B8%8A%E6%96%87%E6%A1%A3%E4%B8%80%E4%BB%BD%E6%96%B9%E4%BE%BF%E6%9F%A5%E9%98%85%E8%99%BD%E7%84%B6%E5%A4%A7%E6%A6%82%E7%8E%87%E4%B8%8D%E4%BC%9A%E5%86%8D%E7%9C%8B">附上文档一份方便查阅（虽然大概率不会再看。。。）</a></li>
+</ul>
+</li>
+<li><a href="#shell-%E8%84%9A%E6%9C%AC%E7%9C%8B%E4%BA%86%E5%A4%A7%E6%A6%82%E7%9F%A5%E9%81%93%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%8D%E8%BF%87%E4%B8%8D%E4%BC%9A%E7%94%A8%E8%A6%81%E7%94%A8%E5%88%B0%E7%9A%84%E6%97%B6%E5%80%99%E5%86%8D%E4%BA%86%E8%A7%A3%E5%90%A7">Shell 脚本（看了大概知道如何实现，不过不会用，要用到的时候再了解吧）</a>
+<ul>
+<li><a href="#1-%E5%88%9B%E5%BB%BA%E8%84%9A%E6%9C%AC%E6%96%87%E4%BB%B6">1. <strong>创建脚本文件</strong></a></li>
+<li><a href="#2-%E6%B7%BB%E5%8A%A0-shebang%E8%84%9A%E6%9C%AC%E5%A4%B4">2. <strong>添加 Shebang（脚本头）</strong></a></li>
+<li><a href="#3-%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%E5%86%85%E5%AE%B9">3. <strong>编写脚本内容</strong></a></li>
+<li><a href="#4-%E4%BF%9D%E5%AD%98%E5%B9%B6%E9%80%80%E5%87%BA%E7%BC%96%E8%BE%91%E5%99%A8">4. <strong>保存并退出编辑器</strong></a></li>
+<li><a href="#5-%E7%BB%99%E4%BA%88%E6%89%A7%E8%A1%8C%E6%9D%83%E9%99%90">5. <strong>给予执行权限</strong></a></li>
+<li><a href="#6-%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC">6. <strong>运行脚本</strong></a></li>
+<li><a href="#%E7%A4%BA%E4%BE%8B%E7%AE%80%E5%8D%95%E7%9A%84%E8%84%9A%E6%9C%AC">示例：简单的脚本</a></li>
+<li><a href="#%E5%85%B6%E4%BB%96%E6%8F%90%E7%A4%BA">其他提示</a></li>
+</ul>
+</li>
+<li><a href="#%E6%9F%A5%E7%9C%8B%E5%91%BD%E4%BB%A4%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8">查看命令如何使用</a></li>
+<li><a href="#%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6">查找文件</a></li>
+<li><a href="#%E6%9F%A5%E6%89%BE%E4%BB%A3%E7%A0%81">查找代码</a></li>
+<li><a href="#%E6%9F%A5%E6%89%BE-shell-%E5%91%BD%E4%BB%A4">查找 shell 命令</a></li>
+<li><a href="#%E6%96%87%E4%BB%B6%E5%A4%B9%E5%AF%BC%E8%88%AA">文件夹导航</a></li>
+<li><a href="#chomd%E5%91%BD%E4%BB%A4">chomd命令</a></li>
+<li><a href="#%E5%85%B6%E4%BB%96">其他</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://rosemary1812.github.io/post/jie-shao-yi-xia/">
+              <h3 class="post-title">
+                介绍一下
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://rosemary1812.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

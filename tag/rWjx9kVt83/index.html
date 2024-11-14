@@ -1,0 +1,287 @@
+<html>
+  <head>
+  <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ysyx | Rosemary1812</title>
+<link rel="shortcut icon" href="https://rosemary1812.github.io//favicon.ico?v=1731586843944">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://rosemary1812.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="ysyx | Rosemary1812 - Atom Feed" href="https://rosemary1812.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+  <meta name="description" content="吾所游兮 鸿蒙太空" />
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://rosemary1812.github.io/">
+  <img class="avatar" src="https://rosemary1812.github.io//images/avatar.png?v=1731586843944" alt="">
+  </a>
+  <h1 class="site-title">
+    Rosemary1812
+  </h1>
+  <p class="site-description">
+    吾所游兮 鸿蒙太空
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="current-tag-container">
+            <h2 class="title">
+                标签：# ysyx
+            </h2> 
+        </div>
+        <div class="post-container">
+  
+    <article class="post">
+      <a href="https://rosemary1812.github.io/post/ysyx-c-zhi-zhen-andjie-gou-ti/">
+        <h2 class="post-title">ysyx C 指针&amp;结构体</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2024-11-14
+        </span>
+        <span>
+          4 min read
+        </span>
+        
+          <a href="https://rosemary1812.github.io/tag/rWjx9kVt83/" class="post-tag">
+            # ysyx
+          </a>
+        
+          <a href="https://rosemary1812.github.io/tag/t0n0_ENq5H/" class="post-tag">
+            # coding
+          </a>
+        
+          <a href="https://rosemary1812.github.io/tag/saD_hxlpa8b/" class="post-tag">
+            # 自学
+          </a>
+        
+      </div>
+      
+        <a href="https://rosemary1812.github.io/post/ysyx-c-zhi-zhen-andjie-gou-ti/" class="post-feature-image" style="background-image: url('https://rosemary1812.github.io//post-images/ysyx-c-zhi-zhen-andjie-gou-ti.png')">
+        </a>
+      
+      <div class="post-abstract">
+        
+      </div>
+    </article>
+  
+    <article class="post">
+      <a href="https://rosemary1812.github.io/post/ysyx-yu-xue-xi-ji-suan-ji-de-zhuang-tai-ji-mo-xing-notes/">
+        <h2 class="post-title">ysyx预学习 计算机的状态机模型notes</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2024-10-16
+        </span>
+        <span>
+          6 min read
+        </span>
+        
+          <a href="https://rosemary1812.github.io/tag/rWjx9kVt83/" class="post-tag">
+            # ysyx
+          </a>
+        
+          <a href="https://rosemary1812.github.io/tag/saD_hxlpa8b/" class="post-tag">
+            # 自学
+          </a>
+        
+      </div>
+      
+        <a href="https://rosemary1812.github.io/post/ysyx-yu-xue-xi-ji-suan-ji-de-zhuang-tai-ji-mo-xing-notes/" class="post-feature-image" style="background-image: url('https://rosemary1812.github.io//post-images/ysyx-yu-xue-xi-ji-suan-ji-de-zhuang-tai-ji-mo-xing-notes.jpg')">
+        </a>
+      
+      <div class="post-abstract">
+        <h2 id="状态工具">状态工具</h2>
+<p>要使用trace工具（如<code>strace</code>）来观察程序的动态行为，可以按照以下步骤进行：</p>
+<ol>
+<li>
+<p><strong>编写一个简单的C程序</strong>：<br>
+创建一个名为<code>a.c</code>的文件，内容如下：</p>
+<pre><code class="language-c">int main() {
+    return 0;
+}
+</code></pre>
+</li>
+<li>
+<p><strong>编译程序</strong>：<br>
+使用<code>gcc</code>编译该程序：</p>
+<pre><code class="language-bash">gcc a.c -o a.out
+</code></pre>
+</li>
+<li>
+<p><strong>使用strace运行程序</strong>：<br>
+运行<code>strace</code>来跟踪程序的系统调用：</p>
+<pre><code class="language-bash">strace ./a.out
+</code></pre>
+</li>
+<li>
+<p><strong>观察输出结果</strong>：<br>
+<code>strace</code>将显示程序执行过程中所调用的系统调用及其返回值。以下是可能的输出示例：</p>
+<pre><code>execve(&quot;./a.out&quot;, [&quot;./a.out&quot;], 0x7ffcfb5c1c80 /* 20 vars */) = 0
+brk(NULL)                               = 0x55f3c1e5e000
+...
+exit_group(0)                           = ?
+</code></pre>
+</li>
+</ol>
+<p>在这个输出中，你可以看到程序的执行过程，包括程序的启动、内存分配、以及最终的退出调用（<code>exit_group</code>）。这些信息可以帮助你理解程序在运行时的动态行为。</p>
+<p>通过这种方式，你可以验证程序是否真的从<code>main()</code>的第一条语句开始执行，并观察到在<code>main()</code>返回后，程序还会进行一些系统调用。</p>
+<h2 id="执行环境-用一个专门的c函数">执行环境 用一个专门的C函数</h2>
+<p>执行环境有两种: 独立环境(freestanding)和宿主环境(hosted）<br>
+在宿主环境下, 这个专门的C函数名称为<code>main</code></p>
+<p>（读课件的时候真不知道啥是argc）<br>
+<code>argc</code> 是一个整数，表示命令行参数的数量。在C和C++等编程语言中，<code>argc</code> 通常作为 <code>main</code> 函数的参数之一。它的值包括程序名称本身，因此如果没有额外的参数，<code>argc</code> 的值至少为1。</p>
+<p>例如，如果你在命令行中运行一个程序并传递了两个参数：</p>
+<pre><code>./my_program arg1 arg2
+</code></pre>
+<p>在这种情况下：</p>
+<ul>
+<li><code>argc</code> 的值为3（包括程序名和两个参数）。</li>
+<li><code>argv[0]</code> 是 <code>./my_program</code>（程序名）。</li>
+<li><code>argv[1]</code> 是 <code>arg1</code>。</li>
+<li><code>argv[2]</code> 是 <code>arg2</code>。</li>
+</ul>
+<h2 id="risc-v">RISC-V</h2>
+<p>![[Pasted image 20241015210337.png]]</p>
+<ul>
+<li>
+<p>指令集手册通过<strong>定义状态机进行状态转移的规则</strong>, 来从概念上描述一台抽象计算机所具备的, **程序可以使用的功能</p>
+</li>
+<li>
+<p>指令集规范（Specification）和处理器实现（Implementation）是两个不同层次的概念，要区分开。**指令集（ISA）是规范标准，往往用一本书或几张纸来记录描述，而处理器实现是基于指令集规范完成的源代码。RISC-V是一个指令集规范。</p>
+</li>
+<li>
+<p>指令集规范（Specification）是指计算机架构中定义的一组指令及其操作规则，包含指令的格式、功能和如何在处理器上执行。这些规范为软件开发者提供了在特定硬件上编写代码的框架，使得不同的程序能够在相同的处理器架构上运行。通过指令集规范，开发者可以理解如何利用处理器的功能来实现各种计算任务。</p>
+</li>
+<li>
+<p>RISC-V指令集是一套开放开源、自由免费的接口规范，并不会受美国管制的影响。但是，基于RISC-V开发的处理器是以商品形式存在的，故而美国企业研制的RISC-V处理器会受到美国出口管制。</p>
+</li>
+<li>
+<p><strong>指令集（ISA）</strong>：指令集是<strong>软件和硬件之间的接口，是一套标准规范</strong>（以文档的形式发布），并不具备实体，我们可以根据这套规范去设计处理器芯片和对应的软件系统，并最终形成产品。常见指令集如x86（常见于桌面和服务器）、ARM（常见于移动嵌入式、手机平板等）、RISC-V（异军突起的开放指令集）等。</p>
+</li>
+</ul>
+<p>![[Pasted image 20241015212633.png]]</p>
+<h2 id="程序如何在计算机上运行">程序如何在计算机上运行</h2>
+<h3 id="汇编">汇编</h3>
+<ul>
+<li>汇编指令 = 指令的符号化表示</li>
+<li>汇编程序 = 驱动指令集状态机的输入
+<ul>
+<li>执行汇编程序 = 指令集状态机发生状态转移</li>
+</ul>
+</li>
+<li>汇编课 = RTFM(指令集手册)</li>
+</ul>
+<p><strong>抽象计算机执行一条指令后进入的状态，和真实的CPU根据指令的含义，通过电路控制所达到的下一状态，是等价的。</strong><br>
+实事求是地说，slides里的表述真不是说人话，在这里附上我问ai整理出来的中英对照</p>
+<blockquote>
+<p>[!本节课术语解释及中英对照]<br>
+抽象计算机（Abstract Machine）：指的是一种理想化的计算机模型，用于理解和描述计算过程的理论机器。<br>
+指令（Instruction）：这是程序中的一条操作命令，由CPU执行。<br>
+指令语义（Instruction Semantics）：指令背后定义的操作和意义，描述每条指令会对计算机状态做出什么改变。<br>
+组合逻辑电路（Combinational Logic Circuit）：这是CPU内部用于处理数据和控制信号的逻辑电路，根据输入立即产生输出，没有记忆功能。<br>
+次态/下一状态（Next State）：指令执行后系统所进入的状态。每条指令执行时，CPU都会从当前状态变为下一状态。<br>
+控制（Control）：指的是CPU的控制逻辑，用来根据指令的语义（Semantics）决定硬件电路的操作。</p>
+</blockquote>
+<h3 id="计算机系统都是状态机">计算机系统都是状态机</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>程序</th>
+<th>抽象计算机</th>
+<th>CPU</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>状态</td>
+<td>{&lt;V,PC&gt;}{&lt;V,PC&gt;}</td>
+<td>{&lt;R,M&gt;}{&lt;R,M&gt;}</td>
+<td>{时序逻辑电路}{时序逻辑电路}</td>
+</tr>
+<tr>
+<td>状态转移规则</td>
+<td>C语言语句的语义</td>
+<td>指令的语义</td>
+<td>组合逻辑电路</td>
+</tr>
+<tr>
+<td>FM</td>
+<td>C语言标准手册</td>
+<td>指令集手册</td>
+<td>架构设计文档</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>程序编译 = 将语句翻译成语义等价的指令序列</li>
+<li>微结构设计 = 按照指令语义设计行为等价的电路</li>
+<li>程序运行 = 指令序列驱动电路进行状态转移</li>
+</ul>
+
+      </div>
+    </article>
+  
+</div>
+
+        <div class="pagination-container">
+  
+  
+</div>
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://rosemary1812.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://rosemary1812.github.io/</id>
+    <title>Rosemary1812</title>
+    <updated>2024-11-14T12:20:51.323Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://rosemary1812.github.io/"/>
+    <link rel="self" href="https://rosemary1812.github.io/atom.xml"/>
+    <subtitle>吾所游兮 鸿蒙太空</subtitle>
+    <logo>https://rosemary1812.github.io/images/avatar.png</logo>
+    <icon>https://rosemary1812.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2024, Rosemary1812</rights>
+    <entry>
+        <title type="html"><![CDATA[ysyx C 指针&结构体]]></title>
+        <id>https://rosemary1812.github.io/post/ysyx-c-zhi-zhen-andjie-gou-ti/</id>
+        <link href="https://rosemary1812.github.io/post/ysyx-c-zhi-zhen-andjie-gou-ti/">
+        </link>
+        <updated>2024-11-14T12:09:53.000Z</updated>
+        <content type="html"><![CDATA[<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;assert.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+struct Person {
+    char *name;
+    int age;
+    int height;
+    int weight;
+};
+
+struct Person *Person_create(char *name, int age, int height, int weight)
+{
+    struct Person *who = malloc(sizeof(struct Person));
+    assert(who != NULL);
+
+    who-&gt;name = strdup(name);
+    who-&gt;age = age;
+    who-&gt;height = height;
+    who-&gt;weight = weight;
+
+    return who;
+}
+
+void Person_destroy(struct Person *who)
+{
+    assert(who != NULL);
+
+    free(who-&gt;name);
+    free(who);
+}
+
+void Person_print(struct Person *who)
+{
+    printf(&quot;Name: %s\n&quot;, who-&gt;name);
+    printf(&quot;\tAge: %d\n&quot;, who-&gt;age);
+    printf(&quot;\tHeight: %d\n&quot;, who-&gt;height);
+    printf(&quot;\tWeight: %d\n&quot;, who-&gt;weight);
+}
+
+int main(int argc, char *argv[])
+{
+    // make two people structures
+    struct Person *joe = Person_create(
+            &quot;Joe Alex&quot;, 32, 64, 140);
+
+    struct Person *frank = Person_create(
+            &quot;Frank Blank&quot;, 20, 72, 180);
+
+    // print them out and where they are in memory
+    printf(&quot;Joe is at memory location %p:\n&quot;, joe);
+    Person_print(joe);
+
+    printf(&quot;Frank is at memory location %p:\n&quot;, frank);
+    Person_print(frank);
+
+    // make everyone age 20 years and print them again
+    joe-&gt;age += 20;
+    joe-&gt;height -= 2;
+    joe-&gt;weight += 40;
+    Person_print(joe);
+
+    frank-&gt;age += 20;
+    frank-&gt;weight += 20;
+    Person_print(frank);
+
+    // destroy them both so we clean up
+    Person_destroy(joe);
+    Person_destroy(frank);
+
+    return 0;
+}
+</code></pre>
+<ul>
+<li>
+<p><code>struct Person</code></p>
+<ul>
+<li>这就是我创建结构体的地方了，结构体含有四个成员来描述一个人。最后我们得到了一个复合类型</li>
+</ul>
+</li>
+<li>
+<p><code>Pearson_create</code> 函数</p>
+<ul>
+<li>我需要一个方法来创建这些结构体，于是我定义了一个函数来实现。下面是这个函数做的几件重要的事情：
+<ul>
+<li>使用用于内存分配的<code>malloc</code>来向OS申请一块原始的内存。</li>
+<li>向<code>malloc</code>传递<code>sizeof(struct Person)</code>参数，它计算结构体的大小，包含其中的所有成员。</li>
+<li>使用了<code>assert</code>来确保从<code>malloc</code>得到一块有效的内存。有一个特殊的常量叫做<code>NULL</code>，表示“未设置或无效的指针”。这个<code>assert</code>大致检查了<code>malloc</code>是否会返回<code>NULL</code>。
+<ul>
+<li><code>#include &lt;assert.h&gt;</code> 是一个预处理指令，可以检查某个条件是否为真，如果为假，则程序会打印出错误信息并终止。这样有助于在开发过程中捕捉到错误和不一致之处。</li>
+</ul>
+</li>
+<li>使用<code>x-&gt;y</code>语法来初始化<code>struct Person</code>的每个成员，它指明了所初始化的成员。</li>
+<li>使用<code>strdup</code>来复制字符串<code>name</code>，是为了确保结构体真正拥有它。<code>strdup</code>的行为实际上类似<code>malloc</code>但是它同时会将原来的字符串复制到新创建的内存。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>注：<code>x-&gt;y</code>是<code>(*x).y</code>的简写。</p>
+</blockquote>
+<ul>
+<li><code>Person_destroy</code> 函数
+<ul>
+<li>如果定义了创建函数，那么一定需要一个销毁函数，它会销毁<code>Person</code>结构体。再一次使用<code>assert</code>来确保不会得到错误的输入。接着使用了<code>free</code>函数来交还通过<code>malloc</code>和<code>strdup</code>得到的内存。如果你不这么做则会出现“内存泄露”。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>译者注：不想显式释放内存又能避免内存泄露的办法是引入<code>libGC</code>库。你需要把所有的<code>malloc</code>换成<code>GC_malloc</code>，然后把所有的<code>free</code>删掉。</p>
+</blockquote>
+<ul>
+<li><code>Person_print</code> 函数</li>
+</ul>
+<p>接下来需要一个方法来打印出人们的信息，这就是这个函数所做的事情。它用了相同的<code>x-&gt;y</code>语法从结构体中获取成员来打印。</p>
+<p><code>main</code> 函数</p>
+<p><code>main</code>函数中使用了所有前面的函数和<code>struct Person</code>来执行下面的事情：</p>
+<ul>
+<li>创建了两个人：<code>joe</code>和<code>frank</code>。</li>
+<li>把它们打印出来，注意我用了<code>%p</code>占位符，所以你可以看到程序实际上把结构体放到了哪里。</li>
+<li>把它们的年龄增加20岁，同时增加它们的体重。</li>
+<li>之后打印出每个人。</li>
+<li>最后销毁结构体，以正确的方式清理它们。</li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ysyx预学习 计算机的状态机模型notes]]></title>
+        <id>https://rosemary1812.github.io/post/ysyx-yu-xue-xi-ji-suan-ji-de-zhuang-tai-ji-mo-xing-notes/</id>
+        <link href="https://rosemary1812.github.io/post/ysyx-yu-xue-xi-ji-suan-ji-de-zhuang-tai-ji-mo-xing-notes/">
+        </link>
+        <updated>2024-10-16T01:21:24.000Z</updated>
+        <summary type="html"><![CDATA[<h2 id="状态工具">状态工具</h2>
+<p>要使用trace工具（如<code>strace</code>）来观察程序的动态行为，可以按照以下步骤进行：</p>
+<ol>
+<li>
+<p><strong>编写一个简单的C程序</strong>：<br>
+创建一个名为<code>a.c</code>的文件，内容如下：</p>
+<pre><code class="language-c">int main() {
+    return 0;
+}
+</code></pre>
+</li>
+<li>
+<p><strong>编译程序</strong>：<br>
+使用<code>gcc</code>编译该程序：</p>
+<pre><code class="language-bash">gcc a.c -o a.out
+</code></pre>
+</li>
+<li>
+<p><strong>使用strace运行程序</strong>：<br>
+运行<code>strace</code>来跟踪程序的系统调用：</p>
+<pre><code class="language-bash">strace ./a.out
+</code></pre>
+</li>
+<li>
+<p><strong>观察输出结果</strong>：<br>
+<code>strace</code>将显示程序执行过程中所调用的系统调用及其返回值。以下是可能的输出示例：</p>
+<pre><code>execve(&quot;./a.out&quot;, [&quot;./a.out&quot;], 0x7ffcfb5c1c80 /* 20 vars */) = 0
+brk(NULL)                               = 0x55f3c1e5e000
+...
+exit_group(0)                           = ?
+</code></pre>
+</li>
+</ol>
+<p>在这个输出中，你可以看到程序的执行过程，包括程序的启动、内存分配、以及最终的退出调用（<code>exit_group</code>）。这些信息可以帮助你理解程序在运行时的动态行为。</p>
+<p>通过这种方式，你可以验证程序是否真的从<code>main()</code>的第一条语句开始执行，并观察到在<code>main()</code>返回后，程序还会进行一些系统调用。</p>
+<h2 id="执行环境-用一个专门的c函数">执行环境 用一个专门的C函数</h2>
+<p>执行环境有两种: 独立环境(freestanding)和宿主环境(hosted）<br>
+在宿主环境下, 这个专门的C函数名称为<code>main</code></p>
+<p>（读课件的时候真不知道啥是argc）<br>
+<code>argc</code> 是一个整数，表示命令行参数的数量。在C和C++等编程语言中，<code>argc</code> 通常作为 <code>main</code> 函数的参数之一。它的值包括程序名称本身，因此如果没有额外的参数，<code>argc</code> 的值至少为1。</p>
+<p>例如，如果你在命令行中运行一个程序并传递了两个参数：</p>
+<pre><code>./my_program arg1 arg2
+</code></pre>
+<p>在这种情况下：</p>
+<ul>
+<li><code>argc</code> 的值为3（包括程序名和两个参数）。</li>
+<li><code>argv[0]</code> 是 <code>./my_program</code>（程序名）。</li>
+<li><code>argv[1]</code> 是 <code>arg1</code>。</li>
+<li><code>argv[2]</code> 是 <code>arg2</code>。</li>
+</ul>
+<h2 id="risc-v">RISC-V</h2>
+<p>![[Pasted image 20241015210337.png]]</p>
+<ul>
+<li>
+<p>指令集手册通过<strong>定义状态机进行状态转移的规则</strong>, 来从概念上描述一台抽象计算机所具备的, **程序可以使用的功能</p>
+</li>
+<li>
+<p>指令集规范（Specification）和处理器实现（Implementation）是两个不同层次的概念，要区分开。**指令集（ISA）是规范标准，往往用一本书或几张纸来记录描述，而处理器实现是基于指令集规范完成的源代码。RISC-V是一个指令集规范。</p>
+</li>
+<li>
+<p>指令集规范（Specification）是指计算机架构中定义的一组指令及其操作规则，包含指令的格式、功能和如何在处理器上执行。这些规范为软件开发者提供了在特定硬件上编写代码的框架，使得不同的程序能够在相同的处理器架构上运行。通过指令集规范，开发者可以理解如何利用处理器的功能来实现各种计算任务。</p>
+</li>
+<li>
+<p>RISC-V指令集是一套开放开源、自由免费的接口规范，并不会受美国管制的影响。但是，基于RISC-V开发的处理器是以商品形式存在的，故而美国企业研制的RISC-V处理器会受到美国出口管制。</p>
+</li>
+<li>
+<p><strong>指令集（ISA）</strong>：指令集是<strong>软件和硬件之间的接口，是一套标准规范</strong>（以文档的形式发布），并不具备实体，我们可以根据这套规范去设计处理器芯片和对应的软件系统，并最终形成产品。常见指令集如x86（常见于桌面和服务器）、ARM（常见于移动嵌入式、手机平板等）、RISC-V（异军突起的开放指令集）等。</p>
+</li>
+</ul>
+<p>![[Pasted image 20241015212633.png]]</p>
+<h2 id="程序如何在计算机上运行">程序如何在计算机上运行</h2>
+<h3 id="汇编">汇编</h3>
+<ul>
+<li>汇编指令 = 指令的符号化表示</li>
+<li>汇编程序 = 驱动指令集状态机的输入
+<ul>
+<li>执行汇编程序 = 指令集状态机发生状态转移</li>
+</ul>
+</li>
+<li>汇编课 = RTFM(指令集手册)</li>
+</ul>
+<p><strong>抽象计算机执行一条指令后进入的状态，和真实的CPU根据指令的含义，通过电路控制所达到的下一状态，是等价的。</strong><br>
+实事求是地说，slides里的表述真不是说人话，在这里附上我问ai整理出来的中英对照</p>
+<blockquote>
+<p>[!本节课术语解释及中英对照]<br>
+抽象计算机（Abstract Machine）：指的是一种理想化的计算机模型，用于理解和描述计算过程的理论机器。<br>
+指令（Instruction）：这是程序中的一条操作命令，由CPU执行。<br>
+指令语义（Instruction Semantics）：指令背后定义的操作和意义，描述每条指令会对计算机状态做出什么改变。<br>
+组合逻辑电路（Combinational Logic Circuit）：这是CPU内部用于处理数据和控制信号的逻辑电路，根据输入立即产生输出，没有记忆功能。<br>
+次态/下一状态（Next State）：指令执行后系统所进入的状态。每条指令执行时，CPU都会从当前状态变为下一状态。<br>
+控制（Control）：指的是CPU的控制逻辑，用来根据指令的语义（Semantics）决定硬件电路的操作。</p>
+</blockquote>
+<h3 id="计算机系统都是状态机">计算机系统都是状态机</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>程序</th>
+<th>抽象计算机</th>
+<th>CPU</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>状态</td>
+<td>{&lt;V,PC&gt;}{&lt;V,PC&gt;}</td>
+<td>{&lt;R,M&gt;}{&lt;R,M&gt;}</td>
+<td>{时序逻辑电路}{时序逻辑电路}</td>
+</tr>
+<tr>
+<td>状态转移规则</td>
+<td>C语言语句的语义</td>
+<td>指令的语义</td>
+<td>组合逻辑电路</td>
+</tr>
+<tr>
+<td>FM</td>
+<td>C语言标准手册</td>
+<td>指令集手册</td>
+<td>架构设计文档</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>程序编译 = 将语句翻译成语义等价的指令序列</li>
+<li>微结构设计 = 按照指令语义设计行为等价的电路</li>
+<li>程序运行 = 指令序列驱动电路进行状态转移</li>
+</ul>
+]]></summary>
+        <content type="html"><![CDATA[<h2 id="状态工具">状态工具</h2>
+<p>要使用trace工具（如<code>strace</code>）来观察程序的动态行为，可以按照以下步骤进行：</p>
+<ol>
+<li>
+<p><strong>编写一个简单的C程序</strong>：<br>
+创建一个名为<code>a.c</code>的文件，内容如下：</p>
+<pre><code class="language-c">int main() {
+    return 0;
+}
+</code></pre>
+</li>
+<li>
+<p><strong>编译程序</strong>：<br>
+使用<code>gcc</code>编译该程序：</p>
+<pre><code class="language-bash">gcc a.c -o a.out
+</code></pre>
+</li>
+<li>
+<p><strong>使用strace运行程序</strong>：<br>
+运行<code>strace</code>来跟踪程序的系统调用：</p>
+<pre><code class="language-bash">strace ./a.out
+</code></pre>
+</li>
+<li>
+<p><strong>观察输出结果</strong>：<br>
+<code>strace</code>将显示程序执行过程中所调用的系统调用及其返回值。以下是可能的输出示例：</p>
+<pre><code>execve(&quot;./a.out&quot;, [&quot;./a.out&quot;], 0x7ffcfb5c1c80 /* 20 vars */) = 0
+brk(NULL)                               = 0x55f3c1e5e000
+...
+exit_group(0)                           = ?
+</code></pre>
+</li>
+</ol>
+<p>在这个输出中，你可以看到程序的执行过程，包括程序的启动、内存分配、以及最终的退出调用（<code>exit_group</code>）。这些信息可以帮助你理解程序在运行时的动态行为。</p>
+<p>通过这种方式，你可以验证程序是否真的从<code>main()</code>的第一条语句开始执行，并观察到在<code>main()</code>返回后，程序还会进行一些系统调用。</p>
+<h2 id="执行环境-用一个专门的c函数">执行环境 用一个专门的C函数</h2>
+<p>执行环境有两种: 独立环境(freestanding)和宿主环境(hosted）<br>
+在宿主环境下, 这个专门的C函数名称为<code>main</code></p>
+<p>（读课件的时候真不知道啥是argc）<br>
+<code>argc</code> 是一个整数，表示命令行参数的数量。在C和C++等编程语言中，<code>argc</code> 通常作为 <code>main</code> 函数的参数之一。它的值包括程序名称本身，因此如果没有额外的参数，<code>argc</code> 的值至少为1。</p>
+<p>例如，如果你在命令行中运行一个程序并传递了两个参数：</p>
+<pre><code>./my_program arg1 arg2
+</code></pre>
+<p>在这种情况下：</p>
+<ul>
+<li><code>argc</code> 的值为3（包括程序名和两个参数）。</li>
+<li><code>argv[0]</code> 是 <code>./my_program</code>（程序名）。</li>
+<li><code>argv[1]</code> 是 <code>arg1</code>。</li>
+<li><code>argv[2]</code> 是 <code>arg2</code>。</li>
+</ul>
+<h2 id="risc-v">RISC-V</h2>
+<p>![[Pasted image 20241015210337.png]]</p>
+<ul>
+<li>
+<p>指令集手册通过<strong>定义状态机进行状态转移的规则</strong>, 来从概念上描述一台抽象计算机所具备的, **程序可以使用的功能</p>
+</li>
+<li>
+<p>指令集规范（Specification）和处理器实现（Implementation）是两个不同层次的概念，要区分开。**指令集（ISA）是规范标准，往往用一本书或几张纸来记录描述，而处理器实现是基于指令集规范完成的源代码。RISC-V是一个指令集规范。</p>
+</li>
+<li>
+<p>指令集规范（Specification）是指计算机架构中定义的一组指令及其操作规则，包含指令的格式、功能和如何在处理器上执行。这些规范为软件开发者提供了在特定硬件上编写代码的框架，使得不同的程序能够在相同的处理器架构上运行。通过指令集规范，开发者可以理解如何利用处理器的功能来实现各种计算任务。</p>
+</li>
+<li>
+<p>RISC-V指令集是一套开放开源、自由免费的接口规范，并不会受美国管制的影响。但是，基于RISC-V开发的处理器是以商品形式存在的，故而美国企业研制的RISC-V处理器会受到美国出口管制。</p>
+</li>
+<li>
+<p><strong>指令集（ISA）</strong>：指令集是<strong>软件和硬件之间的接口，是一套标准规范</strong>（以文档的形式发布），并不具备实体，我们可以根据这套规范去设计处理器芯片和对应的软件系统，并最终形成产品。常见指令集如x86（常见于桌面和服务器）、ARM（常见于移动嵌入式、手机平板等）、RISC-V（异军突起的开放指令集）等。</p>
+</li>
+</ul>
+<p>![[Pasted image 20241015212633.png]]</p>
+<h2 id="程序如何在计算机上运行">程序如何在计算机上运行</h2>
+<h3 id="汇编">汇编</h3>
+<ul>
+<li>汇编指令 = 指令的符号化表示</li>
+<li>汇编程序 = 驱动指令集状态机的输入
+<ul>
+<li>执行汇编程序 = 指令集状态机发生状态转移</li>
+</ul>
+</li>
+<li>汇编课 = RTFM(指令集手册)</li>
+</ul>
+<p><strong>抽象计算机执行一条指令后进入的状态，和真实的CPU根据指令的含义，通过电路控制所达到的下一状态，是等价的。</strong><br>
+实事求是地说，slides里的表述真不是说人话，在这里附上我问ai整理出来的中英对照</p>
+<blockquote>
+<p>[!本节课术语解释及中英对照]<br>
+抽象计算机（Abstract Machine）：指的是一种理想化的计算机模型，用于理解和描述计算过程的理论机器。<br>
+指令（Instruction）：这是程序中的一条操作命令，由CPU执行。<br>
+指令语义（Instruction Semantics）：指令背后定义的操作和意义，描述每条指令会对计算机状态做出什么改变。<br>
+组合逻辑电路（Combinational Logic Circuit）：这是CPU内部用于处理数据和控制信号的逻辑电路，根据输入立即产生输出，没有记忆功能。<br>
+次态/下一状态（Next State）：指令执行后系统所进入的状态。每条指令执行时，CPU都会从当前状态变为下一状态。<br>
+控制（Control）：指的是CPU的控制逻辑，用来根据指令的语义（Semantics）决定硬件电路的操作。</p>
+</blockquote>
+<h3 id="计算机系统都是状态机">计算机系统都是状态机</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>程序</th>
+<th>抽象计算机</th>
+<th>CPU</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>状态</td>
+<td>{&lt;V,PC&gt;}{&lt;V,PC&gt;}</td>
+<td>{&lt;R,M&gt;}{&lt;R,M&gt;}</td>
+<td>{时序逻辑电路}{时序逻辑电路}</td>
+</tr>
+<tr>
+<td>状态转移规则</td>
+<td>C语言语句的语义</td>
+<td>指令的语义</td>
+<td>组合逻辑电路</td>
+</tr>
+<tr>
+<td>FM</td>
+<td>C语言标准手册</td>
+<td>指令集手册</td>
+<td>架构设计文档</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>程序编译 = 将语句翻译成语义等价的指令序列</li>
+<li>微结构设计 = 按照指令语义设计行为等价的电路</li>
+<li>程序运行 = 指令序列驱动电路进行状态转移</li>
+</ul>
+<!-- more -->
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[cs61A Disc1 Control, Environment Diagrams notes]]></title>
+        <id>https://rosemary1812.github.io/post/cs61a-disc1-control-environment-diagrams-notes/</id>
+        <link href="https://rosemary1812.github.io/post/cs61a-disc1-control-environment-diagrams-notes/">
+        </link>
+        <updated>2024-10-12T09:19:31.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="assertion">assertion</h3>
+<p><code>assert y &gt; x and y &lt;= 2 * x, 'the hare must be fast but not too fast' </code><br>
+这行代码检查输入的合理性：兔子的速度必须大于乌龟的速度（即 <code>y &gt; x</code>），但兔子的速度不能过快，不能超过乌龟速度的两倍（即 <code>y &lt;= 2 * x</code>）</p>
+<h3 id="while-loopbool使用注意">while loop(bool使用注意)</h3>
+<p><code>while minutes == 0 or tortoise - hare:</code> 注意这个代码后半句 <mark>等于0或者ture被省略了</mark><br>
+<code>tortoise - hare</code> 是一个<strong>表达式</strong>，并不是一个运算符。这个表达式只是计算乌龟和兔子的距离差。让我们分解一下：</p>
+<ul>
+<li><strong><code>tortoise</code></strong> 是乌龟当前走的总距离（一个变量）。</li>
+<li><strong><code>hare</code></strong> 是兔子当前跑的总距离（也是一个变量）。</li>
+</ul>
+<p><code>-</code> 是减法运算符，用于计算乌龟距离减去兔子距离的差值。</p>
+<h4 id="为什么表达式直接出现在-while-里">为什么表达式直接出现在 <code>while</code> 里？</h4>
+<p>在 Python 中，<strong>非零数值被视为 <code>True</code></strong>，而零则被视为 <code>False</code>。所以，<code>tortoise - hare</code> 的作用是：</p>
+<ul>
+<li>当 <code>tortoise - hare != 0</code>，即乌龟和兔子还不在同一个位置时，这个值不为 0，因此循环继续执行。</li>
+<li>当 <code>tortoise - hare == 0</code>，即乌龟追上了兔子，两者在同一位置时，表达式的值为 0，表示 <code>False</code>，于是循环停止。</li>
+</ul>
+<p>所以，这里不是某种特殊的语法或运算符，而是直接利用了 Python 对数值的真假性判断：</p>
+<ul>
+<li>非零：<code>True</code>，循环继续。</li>
+<li>零：<code>False</code>，循环结束。</li>
+</ul>
+<h4 id="常见使用场景copy一下虽然估计不常用"><s>常见使用场景：（copy一下，虽然估计不常用）</s></h4>
+<p><s>这种简化在实际编程中非常常见，特别是在以下场景：</s></p>
+<ul>
+<li><s><strong>检查数值为零或非零</strong>：如计数器、距离差等。</s></li>
+<li><s><strong>检查列表是否为空</strong>：空列表为 <code>False</code>，非空列表为 <code>True</code>。</s></li>
+<li><s><strong>检查变量是否为 None</strong>：可以直接使用变量代替 <code>if variable is not None</code>。</s></li>
+</ul>
+<p>eg.<br>
+![[Pasted image 20241012171622.png]]<img src="https://rosemary1812.github.io//post-images/1728724929043.png" alt="" loading="lazy"></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Shell]]></title>
+        <id>https://rosemary1812.github.io/post/shellyi-ge-cu-cao-de-bi-ji/</id>
+        <link href="https://rosemary1812.github.io/post/shellyi-ge-cu-cao-de-bi-ji/">
+        </link>
+        <updated>2024-09-22T11:55:29.000Z</updated>
+        <content type="html"><![CDATA[<p>一份粗糙的笔记，内容整理自<a href="https://missing.csail.mit.edu/2020/shell-tools/">/.missing semester</a>以及Claude的回答。</p>
+<h3 id="附上文档一份方便查阅虽然大概率不会再看">附上文档一份方便查阅（虽然大概率不会再看。。。）</h3>
+<p><a href="https://tldp.org/LDP/abs/html/index.html">Advanced Bash-Scripting Guide</a></p>
+<h2 id="shell-脚本看了大概知道如何实现不过不会用要用到的时候再了解吧">Shell 脚本（看了大概知道如何实现，不过不会用，要用到的时候再了解吧）</h2>
+<p>在 Bash 中编写脚本的步骤如下：</p>
+<h3 id="1-创建脚本文件">1. <strong>创建脚本文件</strong></h3>
+<p>首先，使用文本编辑器（如 <code>vim</code>、<code>nano</code> 或者 <code>gedit</code>）创建一个脚本文件。文件扩展名通常是 <code>.sh</code>，但这不是强制的。</p>
+<pre><code class="language-bash">nano myscript.sh
+</code></pre>
+<h3 id="2-添加-shebang脚本头">2. <strong>添加 Shebang（脚本头）</strong></h3>
+<p>在文件的第一行添加以下代码来指定使用 Bash 来执行脚本：</p>
+<pre><code class="language-bash">#!/bin/bash
+</code></pre>
+<p>这叫做 <strong>shebang</strong>，告诉操作系统要用 <code>/bin/bash</code> 来解释运行这个脚本。</p>
+<h3 id="3-编写脚本内容">3. <strong>编写脚本内容</strong></h3>
+<p>你可以在这个文件中添加你想要运行的 Bash 命令。例如：</p>
+<pre><code class="language-bash">#!/bin/bash
+# This is a simple script that prints &quot;Hello, World!&quot;
+
+echo &quot;Hello, World!&quot;
+</code></pre>
+<h3 id="4-保存并退出编辑器">4. <strong>保存并退出编辑器</strong></h3>
+<p>保存文件并退出编辑器。</p>
+<ul>
+<li>在 <strong>nano</strong> 中：按 <code>Ctrl + O</code>，然后按回车保存，接着 <code>Ctrl + X</code> 退出。</li>
+<li>在 <strong>vim</strong> 中：按 <code>Esc</code>，然后输入 <code>:wq</code> 保存并退出。</li>
+</ul>
+<h3 id="5-给予执行权限">5. <strong>给予执行权限</strong></h3>
+<p>使用 <code>chmod</code> 命令使脚本可执行：</p>
+<pre><code class="language-bash">chmod +x myscript.sh
+</code></pre>
+<h3 id="6-运行脚本">6. <strong>运行脚本</strong></h3>
+<p>现在，你可以通过在终端中输入以下命令运行脚本：</p>
+<pre><code class="language-bash">./myscript.sh
+</code></pre>
+<h3 id="示例简单的脚本">示例：简单的脚本</h3>
+<pre><code class="language-bash">#!/bin/bash
+# A simple script to greet the user
+
+echo &quot;What's your name?&quot;
+read name
+echo &quot;Hello, $name! Welcome to Bash scripting.&quot;
+</code></pre>
+<h3 id="其他提示">其他提示</h3>
+<ul>
+<li>使用 <code>#</code> 来添加注释，帮助你记录脚本的功能。</li>
+<li>使用 <code>read</code> 命令来获取用户输入。</li>
+<li>可以用 <code>if</code>、<code>for</code>、<code>while</code> 等控制结构编写更复杂的逻辑。</li>
+</ul>
+<p>写脚本有时候需要反复测试，开始时从简单的功能开始是个好主意！</p>
+<h2 id="查看命令如何使用">查看命令如何使用</h2>
+<ul>
+<li>如何为特定的命令找到合适的标记呢？例如 <code>ls -l</code>, <code>mv -i</code> 和 <code>mkdir -p</code>。更普遍的是，给您一个命令行，您应该怎样了解如何使用这个命令行并找出它的不同的选项呢？在上一节中我们介绍过，最常用的方法是为对应的命令行添加 <code>-h</code> 或 <code>--help</code> 标记。另外一个更详细的方法则是使用 <code>man</code> 命令。<a href="https://man7.org/linux/man-pages/man1/man.1.html"><code>man</code></a> 命令是手册（manual）的缩写，它提供了命令的用户手册。</li>
+<li>有时候手册内容太过详实，让我们难以在其中查找哪些最常用的标记和语法。 <a href="https://tldr.sh/">TLDR pages</a> 是一个很不错的替代品，它提供了一些案例，可以帮助您快速找到正确的选项。</li>
+</ul>
+<h2 id="查找文件">查找文件</h2>
+<ul>
+<li><mark>find</mark> 所有的类 UNIX 系统都包含一个名为 <a href="https://man7.org/linux/man-pages/man1/find.1.html"><code>find</code></a> 的工具，它是 shell 上用于查找文件的绝佳工具。<code>find</code> 命令会递归地搜索符合条件的文件。</li>
+<li><mark>fd</mark> 尽管 <code>find</code> 用途广泛，它的语法却比较难以记忆。例如，为了查找满足模式 <code>PATTERN</code> 的文件，您需要执行 <code>find -name '*PATTERN*'</code> (如果您希望模式匹配时是不区分大小写，可以使用 <code>-iname</code> 选项）例如，<a href="https://github.com/sharkdp/fd"><code>fd</code></a> 就是一个更简单、更快速、更友好的程序，它可以用来作为 <code>find</code> 的替代品。以模式 <code>PATTERN</code> 搜索的语法是 <code>fd PATTERN</code>。</li>
+<li><mark>locate</mark>大多数人都认为 <code>find</code> 和 <code>fd</code> 已经很好用了，但是有的人可能想知道，我们是不是可以有更高效的方法，例如不要每次都搜索文件而是通过编译索引或建立数据库的方式来实现更加快速地搜索。这就要靠 <a href="https://man7.org/linux/man-pages/man1/locate.1.html"><code>locate</code></a> 了。 <code>locate</code> 使用一个由 <a href="https://man7.org/linux/man-pages/man1/updatedb.1.html"><code>updatedb</code></a> 负责更新的数据库，在大多数系统中 <code>updatedb</code> 都会通过 <a href="https://man7.org/linux/man-pages/man8/cron.8.html"><code>cron</code></a> 每日更新。这便需要我们在速度和时效性之间作出权衡。而且，<code>find</code> 和类似的工具可以通过别的属性比如文件大小、修改时间或是权限来查找文件，<code>locate</code> 则只能通过文件名。 <a href="https://unix.stackexchange.com/questions/60205/locate-vs-find-usage-pros-and-cons-of-each-other">这里</a> 有一个更详细的对比。</li>
+</ul>
+<h2 id="查找代码">查找代码</h2>
+<p><code>grep</code> 有很多选项，这也使它成为一个非常全能的工具。其中我经常使用的有 <code>-C</code> ：获取查找结果的上下文（Context）；<code>-v</code> 将对结果进行反选（Invert），也就是输出不匹配的结果。举例来说， <code>grep -C 5</code> 会输出匹配结果前后五行。当需要搜索大量文件的时候，使用 <code>-R</code> 会递归地进入子目录并搜索所有的文本文件。</p>
+<h2 id="查找-shell-命令">查找 shell 命令</h2>
+<p><code>history</code> 命令允许您以程序员的方式来访问 shell 中输入的历史命令。这个命令会在标准输出中打印 shell 中的历史命令。如果我们要搜索历史记录，则可以利用管道将输出结果传递给 <code>grep</code> 进行模式搜索。 <code>history | grep find</code> 会打印包含 find 子串的命令。</p>
+<h2 id="文件夹导航">文件夹导航</h2>
+<p>还有一些更复杂的工具可以用来概览目录结构，例如 [<code>tree</code>]</p>
+<h2 id="chomd命令">chomd命令</h2>
+<p><code>chmod</code> 是一个用于更改文件或目录权限的命令。在 Unix 和 Linux 操作系统中，<code>chmod</code> 可以设置谁可以读取、写入或执行文件。</p>
+<p>权限分为三种类型：</p>
+<ol>
+<li><strong>读（r）</strong> - 允许查看文件内容。</li>
+<li><strong>写（w）</strong> - 允许修改文件内容。</li>
+<li><strong>执行（x）</strong> - 允许执行文件（对于脚本或程序）。</li>
+</ol>
+<p>权限的设置是针对三类用户：</p>
+<ol>
+<li><strong>文件所有者</strong>（User）</li>
+<li><strong>同组用户</strong>（Group）</li>
+<li><strong>其他用户</strong>（Others）</li>
+</ol>
+<p>使用方式示例：</p>
+<ul>
+<li><code>chmod 755 filename</code>：设置文件所有者具有读、写、执行权限，组用户和其他用户具有读和执行权限。</li>
+<li><code>chmod u+rwx, g+rx, o+rx filename</code>：同样的效果，但以符号方式表示。</li>
+</ul>
+<p>通过 <code>chmod</code> 命令，用户可以灵活控制文件的访问权限。</p>
+<h2 id="其他">其他</h2>
+<ul>
+<li>sudo</li>
+<li>管道</li>
+<li></li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[介绍一下]]></title>
+        <id>https://rosemary1812.github.io/post/jie-shao-yi-xia/</id>
+        <link href="https://rosemary1812.github.io/post/jie-shao-yi-xia/">
+        </link>
+        <updated>2024-09-20T13:44:07.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="动机以及动机的变化">动机以及动机的变化</h3>
+<p>本来建立这个类似于博客的东西是为了上传我的学习周报，但是发现（1）大伙都用csdn（2）后端那些东西似乎要花很多时间，我不确定能不能搞定，所以打算观望一下（即先不上传什么学习周报了）。那么我的新动机是什么呢，大概是记录一下我的学习进度（不仅限于web项目之类的本专业内容），顺便写点随笔（大概率是关于我学习的思考，或是胡说八道）吧。其实有许多平台可供我写点东西，比如具有社交属性的xhs，知乎，wb……虽然没人看但是我也不太想让这些行号建立与我现实生活的强关联；或者pendo或flomo，但是这两个各有各的分工，如果用来记录我的学习进度会让我觉得供我说点闲话的空间被入侵了，还是算了。<br>
+或许是因为博客虽然是开放的，但理论上只会有我一个人看，所以这兼顾了私密性和被人监督的仪式感（什么自相矛盾的描述），这让我觉得很不错，于是继续使用。</p>
+<h3 id="我大概会写点什么">我大概会写点什么</h3>
+<ol>
+<li>我的cs课程学习进度（only自学），回顾我学到了什么，有什么收获</li>
+<li>英语学习进度（这听起来不好玩，但是不得不做。）</li>
+<li>关于我的数学学习（作为菜鸟我至少学完某两本，或是三本书才会写点东西。）</li>
+<li>读书感悟</li>
+<li>一些思考，围绕以上四点展开。</li>
+<li>每月回顾</li>
+</ol>
+<h3 id="其他">其他</h3>
+<p>markdown我已经用得不错了，后续文章会先在obsidian里写好再传上来。我并没有很强的分享欲，而且这个网站基本没什么人看，所以大概会出现一些用大量缩写意义不明的文章，或许以后会有改进，如果我能坚持下去的话。</p>
+<p>THE END</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[测试日报（传到网站上看看效果如何！]]></title>
+        <id>https://rosemary1812.github.io/post/ce-shi-ri-bao-chuan-dao-wang-zhan-shang-kan-kan-xiao-guo-ru-he/</id>
+        <link href="https://rosemary1812.github.io/post/ce-shi-ri-bao-chuan-dao-wang-zhan-shang-kan-kan-xiao-guo-ru-he/">
+        </link>
+        <updated>2024-09-19T14:34:41.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="该笔记来自hereclaude和git官方文档">该笔记来自<a href="https://wkevin.github.io/GitChat/gitchat.html#round-1-%E8%B5%B7%E6%AD%A5">here</a>,claude,和<a href="https://mirrors.edge.kernel.org/pub/software/scm/git/docs/">git官方文档</a></h3>
+<h4 id="2024919-一些基本的命令">2024.9.19 一些基本的命令</h4>
+<p><code>mkdir filename</code>创建文件夹<br>
+<code>cd</code>进入文件夹<br>
+<code>touch</code>创建文件<br>
+<code>git add</code>暂存<br>
+<code>git commit -m&quot;一些描述&quot;</code>提交更改<br>
+使用命令行查看内容<br>
+快速查看文件内容 <code>cat 2024-09-19_diary.md 查看文件的修改历史：</code> git log -p 2024-09-19_diary.md<br>
+列出所有日记文件<code>ls *_diary.md 搜索特定内容</code>grep &quot;关键词&quot; *_diary.md<br>
+返回上层目录<code>cd</code><br>
+`</p>
+<blockquote>
+<p><em>剩下的内容等我用到/听完the missing semester再说吧！</em><br>
+<em>意外地发现git bash命令行和之前为了听the missing semester 1下的Ubuntu是很相似的，问了ai发现linux的命令也可以在bash里面用。</em></p>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[2024.9.18]]></title>
+        <id>https://rosemary1812.github.io/post/2024918/</id>
+        <link href="https://rosemary1812.github.io/post/2024918/">
+        </link>
+        <updated>2024-09-18T13:39:41.000Z</updated>
+        <content type="html"><![CDATA[<p>折腾一番之后终于连上了GitHub page，好耶<img src="https://rosemary1812.github.io//post-images/1726666834739.jpg" alt="" loading="lazy"></p>
+]]></content>
+    </entry>
+</feed>
